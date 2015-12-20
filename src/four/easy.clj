@@ -144,3 +144,67 @@
         (f y x) :gt
         :else :eq))
 
+;;dot Product
+(defn p143 [x y]
+  (reduce + (map * x y)))
+
+;;Infix Calculator
+(defn p135 [x & xs]
+  (reduce (fn [a [op b]] (op a b)) x (partition 2 xs)))
+
+;;Indexing Sequences
+(defn p157 [v]
+  (map-indexed #(vector %2 %1) v))
+
+;;Pascal's Triangle
+(defn [n]
+  (reduce #(conj %1 (* (last %1) (/ (- n %2) %2 ))) [1] (range 1 n)))
+
+;;Re-implement Map
+(defn p118 [f c]
+  (if (seq c)    
+    (lazy-seq     
+     (cons (f (first c)) (p118 f (rest c))))))
+
+;;To Tree, or not to Tree
+(defn p95 [[k l r :as t]]
+  (and (= 3 (count t))
+       (if (coll? l) (p95 l) (nil? l))
+       (if (coll? r) (p95 r) (nil? r))))
+
+;;Sum of square of Digits
+(defn p120 [c] (count (filter       
+          (fn [n] (< n (reduce + (map (comp #(* % %) #(- (int %) 48)) (str n))))) c)))
+
+;;Recoginize Playing Cards
+(defn [[s r]]
+  {:suit ({\D :diamond \H :heart \C :club \S :spade} s) 
+   :rank (if (> 58 (int r)) (- (int r) 50) ({\T 8 \J 9 \Q 10 \K 11 \A 12} r))})
+
+;;Least Common Multiple
+(defn p100 [& xs]
+  #(letfn [(gcd
+          ([x y] (if (= y 0) x (recur y (mod x y))))
+          ([x y & more] (reduce gcd (gcd x y) more)))]
+     (/ (reduce * xs) (apply gcd xs))))
+
+;;Pascal's Trapezoid
+(defn p147 [s]
+  (iterate #(mapv +' `(0 ~@%) `(~@% 0))))
+
+;;Beauty is Symmetry
+(defn p96 [[_ ll rr]]
+  (= rr ((fn it [[k l r]] [k (if r (it r) nil)
+                            (if l (it l) nil)]) ll)))
+;;Trees into tables
+(defn p146 [t]
+  (into {} (for [[kk m] t
+                 [k v] m]
+             [[kk k] v])))
+
+;;Pairwise Disjoint Sets
+(defn p153 [s]
+  (= (count (set (apply concat s)))
+     (reduce (fn [x y] (+ x (count y)))
+             0 s)))
+

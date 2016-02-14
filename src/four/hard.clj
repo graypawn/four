@@ -64,3 +64,14 @@
         straight? :straight
         flush? :flush
         :else :high-card))))
+
+;; The Big Divide
+
+(defn p148-1 [n a b]
+  ((fn [[x y z]] (- (+ x y) z))
+   
+   (map #(let [q (- (quot n %)
+                    (if (zero? (mod n %)) 1 0))]
+           (/ (*' q (+ q 1) %) 2))
+        [a b (* a b)])))
+

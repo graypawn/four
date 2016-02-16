@@ -19,6 +19,16 @@
            (odd? y) (p106-1 (/ x 2) y (inc n))
            :else (p106-1 (+ x 2) y (inc n)) ))))
 
+(defn p106-2 [x y]
+  (letfn [(step [coll]
+            (mapcat #(if (even? %)
+                       [(* % 2) (+ % 2) (/ % 2)]
+                       [(* % 2) (+ % 2)]) coll))]
+    (loop [coll [x] n 1]
+      (if ((set coll) y)
+        n
+        (recur (step coll) (inc n))))))
+
 ;;Gus' Quinundrum
 (defn p125-1 []
   "This Solution is lisp stytle
@@ -117,3 +127,4 @@
     
     clojure.lang.ISeq
     (seq [this] (if (empty? args) nil (distinct args)))))
+

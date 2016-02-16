@@ -109,3 +109,11 @@
          (lines (count board) (count (first board)))
          )))
 
+;; Making Data Dance
+(defn p113-1 [& args]
+  (reify
+    java.lang.Object
+    (toString [this] (apply str (interpose ", " (sort args))))
+    
+    clojure.lang.ISeq
+    (seq [this] (if (empty? args) nil (distinct args)))))

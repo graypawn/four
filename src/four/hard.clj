@@ -128,3 +128,14 @@
     clojure.lang.ISeq
     (seq [this] (if (empty? args) nil (distinct args)))))
 
+;; Intervals
+(defn p171-1 [v]
+  (let [[h :as s] (sort v)]
+    (reverse
+     (reduce (fn [[f & r] [x y :as z]]
+               (if (or (= (inc x) y)
+                       (= x y))
+                 (conj r [(first f) y])
+                 (conj r f [y y]) ))
+             (if (empty? v) [] [[h h]])
+             (partition 2 1 s)))))

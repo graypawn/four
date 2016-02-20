@@ -139,3 +139,13 @@
                  (conj r f [y y]) ))
              (if (empty? v) [] [[h h]])
              (partition 2 1 s)))))
+
+;;; Sum Some Set Subsets
+(defn p131-1 [& sets]
+  (letfn [(powerset [ls]
+            (reduce(fn [acc elem] (into acc (map #(+ % elem) acc))) [0] ls))]
+    (let [v (map powerset sets)
+          s (apply clojure.set/intersection (map set v))]
+      (if (= #{0} s)
+        (every? #(= 2 (count (filter zero? %))) v)
+        (not= 0 (count v))))))

@@ -19,6 +19,7 @@
            (odd? y) (p106-1 (/ x 2) y (inc n))
            :else (p106-1 (+ x 2) y (inc n)) ))))
 
+
 (defn p106-2 [x y]
   (letfn [(step [coll]
             (mapcat #(if (even? %)
@@ -75,16 +76,6 @@
         flush? :flush
         :else :high-card))))
 
-;; The Big Divide
-
-(defn p148-1 [n a b]
-  ((fn [[x y z]] (- (+ x y) z))
-   
-   (map #(let [q (- (quot n %)
-                    (if (zero? (mod n %)) 1 0))]
-           (/ (*' q (+ q 1) %) 2))
-        [a b (* a b)])))
-
 ;; Game of Life
 
 (defn p94-1 [board]
@@ -127,25 +118,3 @@
     
     clojure.lang.ISeq
     (seq [this] (if (empty? args) nil (distinct args)))))
-
-;; Intervals
-(defn p171-1 [v]
-  (let [[h :as s] (sort v)]
-    (reverse
-     (reduce (fn [[f & r] [x y :as z]]
-               (if (or (= (inc x) y)
-                       (= x y))
-                 (conj r [(first f) y])
-                 (conj r f [y y]) ))
-             (if (empty? v) [] [[h h]])
-             (partition 2 1 s)))))
-
-;;; Sum Some Set Subsets
-(defn p131-1 [& sets]
-  (letfn [(powerset [ls]
-            (reduce(fn [acc elem] (into acc (map #(+ % elem) acc))) [0] ls))]
-    (let [v (map powerset sets)
-          s (apply clojure.set/intersection (map set v))]
-      (if (= #{0} s)
-        (every? #(= 2 (count (filter zero? %))) v)
-        (not= 0 (count v))))))

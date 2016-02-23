@@ -1,2 +1,2 @@
-# 4clojure solution
-www.4clojure.com
+# Directory
+* src/four : 4clojure문제 풀이 www.4clojure.com
